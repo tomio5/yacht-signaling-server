@@ -5,6 +5,7 @@ const port = process.env.PORT || 9000
 const peerServer = PeerServer({
   port,
   path: '/',
+  host: '0.0.0.0',
 })
 
 peerServer.on('connection', (client) => {
