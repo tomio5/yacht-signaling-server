@@ -1,15 +1,29 @@
+process.on('uncaughtException', (err) => {
+  console.error('UNCAUGHT EXCEPTION:', err)
+})
+process.on('unhandledRejection', (err) => {
+  console.error('UNHANDLED REJECTION:', err)
+})
+
+console.log('starting server.js...')
+
 const { PeerServer } = require('peer')
+
+console.log('peer module loaded')
 
 const port = process.env.PORT || 9000
 
-const peerServer = PeerServer({
-  port,
-  path: '/',
-  host: '0.0.0.0',
-})
+try {
+  const peerServer = PeerServer({
+    port,
+    path: '/',
+  })
 
-peerServer.on('connection', (client) => {
-  console.log('client connected:', client.getId())
-})
+  peerServer.on('connection', (client) => {
+    console.log('client connected:', client.getId())
+  })
 
-console.log(`PeerJS server running on port ${port}`)
+  console.log(`PeerJS server listening setup done, port ${port}`)
+} catch (err) {
+  console.error('FAILED TO START PEERSERVER:', err)
+}
